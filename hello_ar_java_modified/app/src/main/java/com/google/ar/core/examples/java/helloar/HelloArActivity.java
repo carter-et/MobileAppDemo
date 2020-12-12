@@ -88,6 +88,9 @@ import java.util.List;
  */
 public class HelloArActivity extends AppCompatActivity implements SampleRender.Renderer {
 
+  private static final String objRef = "models/violin/Violin.obj";
+  private static final String textureRef = "models/textures/white.jpg";
+
   private static final String TAG = HelloArActivity.class.getSimpleName();
 
   private static final String SEARCHING_PLANE_MESSAGE = "Searching for surfaces...";
