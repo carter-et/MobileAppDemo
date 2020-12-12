@@ -395,20 +395,14 @@ public class HelloArActivity extends AppCompatActivity implements SampleRender.R
           new Mesh(
               render, Mesh.PrimitiveMode.POINTS, /*indexBuffer=*/ null, pointCloudVertexBuffers);
 
-      // Virtual object to render (ARCore pawn)
-      Texture virtualObjectAlbedoTexture =
-          Texture.createFromAsset(
-              render,
-              "models/pawn_albedo.png",
-              Texture.WrapMode.CLAMP_TO_EDGE,
-              Texture.ColorFormat.SRGB);
-      Texture virtualObjectPbrTexture =
-          Texture.createFromAsset(
-              render,
-              "models/pawn_roughness_metallic_ao.png",
-              Texture.WrapMode.CLAMP_TO_EDGE,
-              Texture.ColorFormat.LINEAR);
-      virtualObjectMesh = Mesh.createFromAsset(render, "models/pawn.obj");
+      Texture virtualObjectPlainTexture =
+              Texture.createFromAsset(
+                      render,
+                      "models/white.jpg",
+                      Texture.WrapMode.CLAMP_TO_EDGE,
+                      Texture.ColorFormat.LINEAR);
+      virtualObjectMesh = Mesh.createFromAsset(render, textureRef);
+      virtualObjectMesh = Mesh.createFromAsset(render, objRef);
       virtualObjectShader =
           Shader.createFromAssets(
                   render,

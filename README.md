@@ -31,8 +31,8 @@ internal limit currently that caps the size of .obj files that can be rendered.
 
 1. Copy your assets to `app/assets/models`.
 1. In `HelloArActivity.java` add this at the top of the class. 
-    ``` private static final String objRef = "models/violin/Violin.obj"; ```
-    ``` private static final String textureRef = "models/textures/white.jpg"; ```
+    ```private static final String objRef = "models/violin/Violin.obj"; 
+    private static final String textureRef = "models/textures/white.jpg";```
 1. The previous textures that were being loaded in were specific to the AR Pawn. We we'll want to replace those. 
     ``` //replace the old textures around line 400 with this```
     ``` Texture virtualObjectPlainTexture =
@@ -42,3 +42,5 @@ internal limit currently that caps the size of .obj files that can be rendered.
               Texture.WrapMode.CLAMP_TO_EDGE,
               Texture.ColorFormat.LINEAR);
         virtualObjectMesh = Mesh.createFromAsset(render, textureRef); ```
+1. Next we're going to change the Mesh that's defines our object. 
+    ``` virtualObjectMesh = Mesh.createFromAsset(render, objRef); ```
