@@ -40,7 +40,7 @@ internal limit currently that caps the size of .obj files that can be rendered.
     ```
     //change this to wherever you keep your obj and textures. The root for this is you assets folder. 
     private String objRef = "models/violin/Violin.obj";
-    private String textureRef = "models/textures/white.jpg";
+    private String textureRef = "models/white.jpg";
     ```
 
 1. Let's pivot really quick and update the `AndroidManifest.xml` and `src/build.grade`.
