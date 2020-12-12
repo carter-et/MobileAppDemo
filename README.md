@@ -34,10 +34,10 @@ internal limit currently that caps the size of .obj files that can be rendered.
 
     ```private static final String objRef = "models/violin/Violin.obj"; 
     private static final String textureRef = "models/textures/white.jpg";```
-    
+
 1. The previous textures that were being loaded in were specific to the AR Pawn. We we'll want to replace those. 
 
-    ``` //replace the old textures around line 400 with this`
+    ``` //replace the old textures around line 400 with this
     Texture virtualObjectPlainTexture =
           Texture.createFromAsset(
               render,
