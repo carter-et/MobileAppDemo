@@ -78,7 +78,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -88,8 +87,8 @@ import java.util.List;
  */
 public class HelloArActivity extends AppCompatActivity implements SampleRender.Renderer {
 
-  private static final String objRef = "models/violin/Violin.obj";
-  private static final String textureRef = "models/textures/white.jpg";
+  private String objRef = "models/monkey/Munkey.obj";
+  private String textureRef = "models/white.jpg";
 
   private static final String TAG = HelloArActivity.class.getSimpleName();
 
@@ -396,29 +395,19 @@ public class HelloArActivity extends AppCompatActivity implements SampleRender.R
               render, Mesh.PrimitiveMode.POINTS, /*indexBuffer=*/ null, pointCloudVertexBuffers);
 
       Texture virtualObjectPlainTexture =
-              Texture.createFromAsset(
-                      render,
-                      "models/white.jpg",
-                      Texture.WrapMode.CLAMP_TO_EDGE,
-                      Texture.ColorFormat.LINEAR);
-      virtualObjectMesh = Mesh.createFromAsset(render, textureRef);
+          Texture.createFromAsset(
+              render,
+              textureRef,
+              Texture.WrapMode.CLAMP_TO_EDGE,
+              Texture.ColorFormat.LINEAR);
       virtualObjectMesh = Mesh.createFromAsset(render, objRef);
       virtualObjectShader =
           Shader.createFromAssets(
                   render,
                   "shaders/environmental_hdr.vert",
                   "shaders/environmental_hdr.frag",
-                  /*defines=*/ new HashMap<String, String>() {
-                    {
-                      put(
-                          "NUMBER_OF_MIPMAP_LEVELS",
-                          Integer.toString(cubemapFilter.getNumberOfMipmapLevels()));
-                    }
-                  })
-              .setTexture("u_AlbedoTexture", virtualObjectAlbedoTexture)
-              .setTexture("u_RoughnessMetallicAmbientOcclusionTexture", virtualObjectPbrTexture)
-              .setTexture("u_Cubemap", cubemapFilter.getFilteredCubemapTexture())
-              .setTexture("u_DfgTexture", dfgTexture);
+                  null)
+              .setTexture("u_AlbedoTexture", virtualObjectPlainTexture);
     } catch (IOException e) {
       Log.e(TAG, "Failed to read a required asset file", e);
       messageSnackbarHelper.showError(this, "Failed to read a required asset file: " + e);

@@ -8,6 +8,11 @@ features.
 
 _We will be focusing on using Java for this Demo, instead of Kotlin._
 
+## Disclaimers
+This is a pretty underwhelming tutorial. As of October, [sceneform became deprecated](https://developers.google.com/sceneform/develop/getting-started) which was the main way that you would manage 
+object files in your project. This means there are nearly no relevant examples or documentation with 
+the new changes. Something to do with maven not being stable... Eitherway, after almost 20 hours of running demos and scavenging the web, I've put together a bit of what I've learned. 
+
 ## Building the project
 To build the project, you can follow [this guide](https://developers.google.com/ar/develop/java/quickstart).
 It'll tell you to clone this repo: 
@@ -33,8 +38,15 @@ internal limit currently that caps the size of .obj files that can be rendered.
 1. In `HelloArActivity.java` add this at the top of the class. 
 
     ```
-    private static final String objRef = "models/violin/Violin.obj"; 
-    private static final String textureRef = "models/textures/white.jpg";
+    //change this to wherever you keep your obj and textures. The root for this is you assets folder. 
+    private String objRef = "models/violin/Violin.obj";
+    private String textureRef = "models/textures/white.jpg";
+    ```
+
+1. Let's pivot really quick and update the `AndroidManifest.xml` and `src/build.grade`.
+    Add this permission to the manifest:
+    ```
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     ```
 
 1. The previous textures that were being loaded in were specific to the AR Pawn. We'll want to replace those. 
@@ -44,11 +56,36 @@ internal limit currently that caps the size of .obj files that can be rendered.
     Texture virtualObjectPlainTexture =
           Texture.createFromAsset(
               render,
-              "models/white.jpg",
+              textureRef,
               Texture.WrapMode.CLAMP_TO_EDGE,
-              Texture.ColorFormat.LINEAR);
-        virtualObjectMesh = Mesh.createFromAsset(render, textureRef); 
+              Texture.ColorFormat.LINEAR); 
     ```
 1. Next we're going to change the Mesh that's defines our object. 
 
-    ``` virtualObjectMesh = Mesh.createFromAsset(render, objRef); ```
+    ```
+    //replace the old object mesh 
+    virtualObjectMesh = Mesh.createFromAsset(render, objRef); 
+    ```
+1. Lastly, the next shader method is adding these textures to your object. Let's remove these lines and
+set the texture to the one we just made.
+    ```
+    //replace the object shader with this
+    virtualObjectShader =
+          Shader.createFromAssets(
+                  render,
+                  "shaders/environmental_hdr.vert",
+                  "shaders/environmental_hdr.frag",
+                  null)
+              .setTexture("u_AlbedoTexture", virtualObjectPlainTexture);
+    ```
+
+Great, that should be all the changes we need for now, give it a run and see how your custom objects look!
+
+## TBD
+This section has yet to be completed, but it would allow us to choose new object files from within the app. 
+
+## Resources
+A list of resources used to help me put this together
+- https://codelabs.developers.google.com/codelabs/augimg-intro/#0
+- https://developers.google.com/ar/develop/java/quickstart
+
